@@ -117,7 +117,7 @@ class UserController extends Controller
             return response()->json([
                 'existe_en_saren' => true,
                 'existe_en_intt' => true,
-                'mensaje' => 'Validación exitosa. Acceso concedido HOLA.',
+                'mensaje' => 'Validación exitosa. Acceso concedido.',
                 'user' => $inttUser,
                 'token' => $token
             ], 200);
