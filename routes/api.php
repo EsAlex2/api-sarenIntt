@@ -1,21 +1,21 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersController;
 
-/*
-|--------------------------------------------------------------------------
-| Rutas de la API
-|--------------------------------------------------------------------------
-|
-*/
+/**
+ * API Routes
+ * Rutas privadas (utilizando middleware)
+ */
 
-// Rutas públicas para verificación y registro de usuarios
-Route::get('/users/verify/{documento}', [UserController::class, 'verify']);
-Route::post('/users', [UserController::class, 'store']);
-Route::post('/users/update-email', [UserController::class, 'updateEmail']);
+//
 
-// Rutas protegidas que utilizan el middleware personalizado de JWT
-Route::middleware('auth.jwt')->group(function () {
-    Route::get('/users/me', [UserController::class, 'me']);
+/**
+ * metodo nativo de laravel para utilizar los middleware
+ */
+Route::middleware(['system.jwt'])->group(function () {
+    Route::post('/users/new', [UsersController::class, 'create']);
+    Route::get('/users/getUser', [UsersController::class, 'getUser']);
+    Route::post('/users/updateUser', [UsersController::class, 'updateEmail']);
 });
