@@ -10,7 +10,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-    protected $table = 'users';
+    protected $table = 'administracion.personas';
+    protected $primaryKey = 'spkpersonas';
+    public $timestamps = false;
     protected $fillable = [
         'numero_documento',
         'primer_nombre',

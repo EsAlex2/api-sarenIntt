@@ -97,7 +97,7 @@ class UsersController extends Controller
     public function getUser()
     {
         try {
-            $users = User::orderBy('id', 'desc')->get();
+            $users = User::orderBy('numero_documento', 'desc')->get();
 
             return response()->json([
                 'status' => 'success',
@@ -111,10 +111,43 @@ class UsersController extends Controller
         }
     }
 
-    public function updateEmail(Request $request)
+    public function getUserByspkpersonas(int $spkpersonas)
+    {
+        if (!is_numeric($spkpersonas)) {
+            return response()->json([
+                'error' => 'Error de validación',
+                'message' => 'El parámetro spkpersonas debe ser un número válido.'
+            ], 400);
+        }
+
+        try {
+            $id = str_replace(' ', '', $spkpersonas);
+            $personaByspk = User::where('spkpersonas', $id)->first();
+
+            if (!$personaByspk) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Usuario no encontrado.'
+                ], 404);
+            }
+
+            return response()->json([
+                'status' => 200,
+                'data' => $personaByspk
+            ], 200);
+
+        } catch(Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Ocurrió un error al obtener el usuario.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateEmail(Request $request, string $cedula)
     {
         $validator = Validator::make($request->all(), [
-            'numero_documento' => 'required|string',
             'correo' => 'required|string|email|max:50'
         ]);
 
@@ -125,12 +158,19 @@ class UsersController extends Controller
             ], 422);
         }
 
-        try {
-            $cedula = str_replace(' ', '', $request->numero_documento);
-            $usuario = User::where('numero_documento', $cedula)
-                ->first();
+        if (!is_numeric($cedula)) {
+            return response()->json([
+                'error' => 'Error de validación',
+                'message' => 'El número de cédula debe ser un número válido.'
+            ], 400);
+        }
 
-            if (!$usuario || empty($usuario)) {
+        try {
+            $cedulaLimpia = str_replace(' ', '', (string)$cedula);
+
+            $usuario = User::where('numero_documento', $cedulaLimpia)->first();
+
+            if (!$usuario) {
                 return response()->json([
                     'error' => 'Usuario no encontrado en el sistema secundario (INTT).'
                 ], 404);
@@ -140,25 +180,16 @@ class UsersController extends Controller
             $correo_nuevo = strtoupper(trim($request->correo));
 
             if ($correo_viejo !== $correo_nuevo) {
-
-                $emailTaken = User::where('correo', $request->correo)
-                    ->where('id', '!=', $usuario->id)
+                $emailTaken = User::where('correo', $correo_nuevo)
+                    ->where('numero_documento', '!=', $usuario->numero_documento)
                     ->exists();
 
                 if ($emailTaken) {
                     return response()->json([
-                        'status' => 'error',
+                        'status' => 400,
                         'message' => 'El correo electrónico ya está registrado por otro usuario.'
                     ], 400);
                 }
-
-                // if (!$request->boolean('confirm_email_update')) {
-                //     return response()->json([
-                //         'status' => 409,
-                //         'message' => 'Hemos detectado un correo diferente. ¿Desea actualizar su correo electrónico actual (' . $correo_viejo . ') por el nuevo (' . $correo_nuevo . ')?',
-                //         'data' => $usuario
-                //     ], 409);
-                // }
 
                 $usuario->correo = $correo_nuevo;
                 $usuario->save();
@@ -178,7 +209,7 @@ class UsersController extends Controller
 
         } catch (Exception $e) {
             return response()->json([
-                'status' => 'error',
+                'status' => 500,
                 'message' => 'Ocurrió un error al procesar la actualización del correo.',
                 'error_detail' => $e->getMessage()
             ], 500);

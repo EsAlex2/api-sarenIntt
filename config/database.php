@@ -99,6 +99,38 @@ return [
             'sslmode' => env('DB_SSLMODE', 'prefer'),
         ],
 
+
+        'sgtpu' => [
+            'driver' => 'pgsql',
+            'url' => env('DB_URL_SGTPU'),
+            'host' => env('DB_HOST_SGTPU', '127.0.0.1'),
+            'port' => env('DB_PORT_SGTPU', '5432'),
+            'database' => env('DB_DATABASE_SGTPU', 'laravel'),
+            'username' => env('DB_USERNAME_SGTPU', 'root'),
+            'password' => env('DB_PASSWORD_SGTPU', ''),
+            'charset' => env('DB_CHARSET', 'utf8'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
+        'intranet' => [
+            'driver' => 'pgsql',
+            'url' => env('DB_URL_INTRANET'),
+            'host' => env('DB_HOST_INTRANET', '127.0.0.1'),
+            'port' => env('DB_PORT_INTRANET', '5432'),
+            'database' => env('DB_DATABASE_INTRANET', 'laravel'),
+            'username' => env('DB_USERNAME_INTRANET', 'root'),
+            'password' => env('DB_PASSWORD_INTRANET', ''),
+            'charset' => env('DB_CHARSET', 'utf8'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DB_URL'),

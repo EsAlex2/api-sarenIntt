@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TramitesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\UsersController;
  */
 Route::middleware(['system.jwt'])->group(function () {
     Route::post('/users/new', [UsersController::class, 'create']);
-    Route::get('/users/getUser', [UsersController::class, 'getUser']);
-    Route::post('/users/updateUser', [UsersController::class, 'updateEmail']);
+    Route::post('/users/updateUser/{cedula}', [UsersController::class, 'updateEmail']);
+    Route::get('/users/getByspk/{spkpersonas}', [UsersController::class, 'getUserByspkpersonas']);
+    Route::get('/tramite/getBycedula/{cedula}', [TramitesController::class, 'traspasoByCedula']);
 });
