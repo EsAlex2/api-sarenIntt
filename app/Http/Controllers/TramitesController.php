@@ -10,7 +10,7 @@ use Illuminate\Database\QueryException;
 
 class TramitesController extends Controller
 {
-    public function traspasoByCedula(Request $request, string $cedula)
+    public function traspasoByCedula(string $cedula)
     {
 
         try {
@@ -30,13 +30,8 @@ class TramitesController extends Controller
 
         } catch (QueryException $e) {
             return response()->json([
-                'error' => 'Error de base de datos al realizar la consulta.',
-                'detalles' => $e->getMessage()
-            ], 500);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => 'Ocurrió un error inesperado.',
-                'detalles' => $e->getMessage()
+                'estatus' => 500,
+                'error' => 'Error en la base de datos al realizar la consulta'
             ], 500);
         }
     }

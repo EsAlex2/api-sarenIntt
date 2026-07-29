@@ -36,7 +36,7 @@ class Tramites extends Authenticatable implements JWTSubject
                 'p.primer_nombre as nombre',
                 'p.primer_apellido as apellido',
                 'intranet.citas_asignadas_vh.fecha_cita as fecha_cita',
-                'intranet.citas_asignadas_vh.ano as anio',
+                'intranet.citas_asignadas_vh.ano as año_vehiculo',
                 'sp.descripcion as estatus',
                 'intranet.citas_asignadas_vh.placa as placa_vh',
                 'intranet.citas_asignadas_vh.spkcitavh as cita_asig',

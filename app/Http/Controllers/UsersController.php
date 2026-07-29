@@ -21,7 +21,6 @@ class UsersController extends Controller
             'segundo_apellido' => 'nullable|string|max:20',
             'fpktipodocumento' => 'required|string|max:1',
             'correo' => 'required|string|email|max:50',
-            // 'fecha_nacimiento' => 'required|date_format:d/m/Y|before_or_equal:today',
             'nombre_empresa' => 'nullable|string|max:50',
             'digito_rif' => 'nullable|string|max:15',
             'telef_celular' => 'required|string'
@@ -42,7 +41,7 @@ class UsersController extends Controller
 
                 if ($emailBd !== $emailRequest) {
                     return response()->json([
-                        'status' => 409,
+                        'estatus' => 409,
                         'message' => 'Hemos detectado que ya se encuentra registrado, pero con un correo diferente. ¿Desea actualizar su correo electrónico actual (' . $emailBd . ') por el nuevo (' . $emailRequest . ')?',
                         'data' => $user
                     ], 409);
@@ -50,7 +49,7 @@ class UsersController extends Controller
 
                 // Si los correos son IGUALES
                 return response()->json([
-                    'status' => 200,
+                    'estatus' => 200,
                     'message' => 'Su usuario se encuentra registrado y validado ante el INTT.',
                     'data' => $user
                 ], 200);
@@ -60,7 +59,7 @@ class UsersController extends Controller
             $emailExists = User::where('correo', $request->correo)->exists();
             if ($emailExists) {
                 return response()->json([
-                    'status' => 400,
+                    'estatus' => 400,
                     'message' => 'No puede registrarse con el correo de otro usuario.'
                 ], 400);
             }
@@ -73,7 +72,6 @@ class UsersController extends Controller
                 'segundo_apellido' => strtoupper(trim($request->segundo_apellido)),
                 'fpktipodocumento' => strtoupper(trim($request->fpktipodocumento)),
                 'correo' => strtoupper(trim($request->correo)),
-                // 'fecha_nacimiento' => $request->fecha_nacimiento,
                 'nombre_empresa' => strtoupper(trim($request->nombre_empresa)),
                 'digito_rif' => strtoupper(trim($request->digito_rif)),
                 'telef_celular' => str_replace(' ', '', $request->telef_celular),
@@ -88,25 +86,7 @@ class UsersController extends Controller
         } catch (QueryException $e) {
             return response()->json([
                 'status' => 500,
-                'message' => 'Ocurrió un error al procesar la solicitud.',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function getUser()
-    {
-        try {
-            $users = User::orderBy('numero_documento', 'desc')->get();
-
-            return response()->json([
-                'status' => 'success',
-                'data' => $users
-            ], 200);
-        } catch (QueryException $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Ocurrió un error al obtener la lista de usuarios.' . $e
+                'message' => 'Ocurrió un error al procesar la solicitud.'
             ], 500);
         }
     }
@@ -126,7 +106,7 @@ class UsersController extends Controller
 
             if (!$personaByspk) {
                 return response()->json([
-                    'status' => 404,
+                    'estatus' => 404,
                     'message' => 'Usuario no encontrado.'
                 ], 404);
             }
@@ -138,7 +118,7 @@ class UsersController extends Controller
 
         } catch(Exception $e) {
             return response()->json([
-                'status' => 500,
+                'estatus' => 500,
                 'message' => 'Ocurrió un error al obtener el usuario.',
                 'error' => $e->getMessage()
             ], 500);
@@ -210,8 +190,7 @@ class UsersController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => 500,
-                'message' => 'Ocurrió un error al procesar la actualización del correo.',
-                'error_detail' => $e->getMessage()
+                'message' => 'Ocurrió un error al procesar la actualización del correo.'
             ], 500);
         }
     }
