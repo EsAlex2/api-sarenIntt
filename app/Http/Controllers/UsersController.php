@@ -91,9 +91,9 @@ class UsersController extends Controller
         }
     }
 
-    public function getUserByspkpersonas(int $spkpersonas)
+    public function get(int $numDocumento)
     {
-        if (!is_numeric($spkpersonas)) {
+        if (!is_numeric($numDocumento)) {
             return response()->json([
                 'error' => 'Error de validación',
                 'message' => 'El parámetro spkpersonas debe ser un número válido.'
@@ -101,10 +101,10 @@ class UsersController extends Controller
         }
 
         try {
-            $id = str_replace(' ', '', $spkpersonas);
-            $personaByspk = User::where('spkpersonas', $id)->first();
+            $cedula = str_replace(' ', '', $numDocumento);
+            $personaByCedula = User::where('numero_documento', $cedula)->first();
 
-            if (!$personaByspk) {
+            if (!$personaByCedula) {
                 return response()->json([
                     'estatus' => 404,
                     'message' => 'Usuario no encontrado.'
@@ -113,7 +113,7 @@ class UsersController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'data' => $personaByspk
+                'data' => $personaByCedula
             ], 200);
 
         } catch(Exception $e) {
