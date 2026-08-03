@@ -115,18 +115,18 @@ return [
             'sslmode' => 'prefer',
         ],
 
-        'intranet' => [
+        'sgtpu-new' => [
             'driver' => 'pgsql',
-            'url' => env('DB_URL_INTRANET'),
-            'host' => env('DB_HOST_INTRANET', '127.0.0.1'),
-            'port' => env('DB_PORT_INTRANET', '5432'),
-            'database' => env('DB_DATABASE_INTRANET', 'laravel'),
-            'username' => env('DB_USERNAME_INTRANET', 'root'),
-            'password' => env('DB_PASSWORD_INTRANET', ''),
+            'url' => env('DB_URL_SGTPU_NEW'),
+            'host' => env('DB_HOST_SGTPU_NEW', '127.0.0.1'),
+            'port' => env('DB_PORT_SGTPU_NEW', '5432'),
+            'database' => env('DB_DATABASE_SGTPU_NEW', 'laravel'),
+            'username' => env('DB_USERNAME_SGTPU_NEW', 'root'),
+            'password' => env('DB_PASSWORD_SGTPU_NEW', ''),
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
-            'search_path' => 'public',
+            'search_path' => 'sgtpu-new',
             'sslmode' => 'prefer',
         ],
 
