@@ -18,6 +18,6 @@ use App\Http\Controllers\UsersController;
 Route::middleware(['system.jwt'])->group(function () {
     Route::post('/users/new', [UsersController::class, 'create']);
     Route::post('/users/updateUser/{cedula}', [UsersController::class, 'updateEmail']);
-    Route::get('/users/getUser/{cedula}', [UsersController::class, 'getUserByCedula']);
+    Route::get('/users/getUser/{cedula}', [UsersController::class, 'get']);
     Route::get('/tramite/getBycedula/{cedula}', [TramitesController::class, 'traspasoByCedula']);
 });
