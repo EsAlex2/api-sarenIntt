@@ -16,7 +16,7 @@ class TramitesController extends Controller
         try {
             $tramites = Tramites::tramiteByCedula($cedula);
 
-            if ($tramites->isEmpty()) {
+            if (empty($tramites)) {
                 return response()->json([
                     'estatus' => 404,
                     'mensaje' => 'No se encontraron trámites pagados registrados para la cédula ingresada.'
@@ -31,7 +31,7 @@ class TramitesController extends Controller
         } catch (QueryException $e) {
             return response()->json([
                 'estatus' => 500,
-                'error' => 'Error en la base de datos al realizar la consulta'
+                'error' => 'Error en la base de datos al realizar la consulta' . $e
             ], 500);
         }
     }
