@@ -19,7 +19,7 @@ class TramitesController extends Controller
             if (empty($tramites)) {
                 return response()->json([
                     'estatus' => 404,
-                    'mensaje' => 'No se encontraron trámites pagados registrados para la cédula ingresada.'
+                    'mensaje' => 'No se encontraron trámites pagados registrados para la cédula ingresada. '
                 ], 404);
             }
 
