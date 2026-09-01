@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Dedoc\Scramble\Scramble::routes(function (\Illuminate\Routing\Route $route) {
+            return \Illuminate\Support\Str::startsWith($route->uri, 'users') 
+                || \Illuminate\Support\Str::startsWith($route->uri, 'tramite');
+        });
     }
 }
