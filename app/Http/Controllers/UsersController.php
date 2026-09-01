@@ -96,7 +96,7 @@ class UsersController extends Controller
         if (!is_numeric($numDocumento)) {
             return response()->json([
                 'error' => 'Error de validación',
-                'message' => 'El parámetro spkpersonas debe ser un número válido.'
+                'message' => 'El numero de documento debe ser un número válido.'
             ], 400);
         }
 
@@ -141,7 +141,7 @@ class UsersController extends Controller
         if (!is_numeric($cedula)) {
             return response()->json([
                 'error' => 'Error de validación',
-                'message' => 'El número de cédula debe ser un número válido.'
+                'message' => 'El número de documento debe ser un número válido.'
             ], 400);
         }
 
@@ -152,7 +152,7 @@ class UsersController extends Controller
 
             if (!$usuario) {
                 return response()->json([
-                    'error' => 'Usuario no encontrado en el sistema secundario (INTT).'
+                    'error' => 'Usuario no encontrado en el sistema del INTT.'
                 ], 404);
             }
 
