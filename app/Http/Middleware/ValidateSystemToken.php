@@ -22,6 +22,7 @@ class ValidateSystemToken
     {
         try {
             $payload = JWTAuth::parseToken()->getPayload();
+            dd($payload);
 
         } catch (TokenExpiredException $e) {
             return response()->json(['error' => 'El token ha expirado'], 401);
