@@ -10,14 +10,18 @@ use App\Http\Controllers\UsersController;
  * Rutas privadas (utilizando middleware)
  */
 
-//
 
 /**
  * metodo nativo de laravel para utilizar los middleware
  */
-Route::middleware(['system.jwt'])->group(function () {
-    Route::post('/users/new', [UsersController::class, 'create']);
-    Route::post('/users/updateUser/{cedula}', [UsersController::class, 'updateEmail']);
-    Route::get('/users/getUser/{cedula}', [UsersController::class, 'get']);
-    Route::get('/tramite/getBycedula/{cedula}', [TramitesController::class, 'traspasoByCedula']);
-});
+// Route::middleware(['system.jwt'])->group(function () {
+    Route::prefix('/users')->group(function () {
+        Route::post('/new', [UsersController::class, 'create']);
+        Route::post('/updateUser/{cedula}', [UsersController::class, 'updateEmail']);
+        Route::get('/getUser/{cedula}', [UsersController::class, 'get']);
+    });
+    Route::prefix('/tramite')->group(function () {
+        Route::get('/getBycedula/{cedula}', [TramitesController::class, 'traspasoByCedula']);
+        Route::post('/new', [TramitesController::class, 'create']);
+    });
+// });

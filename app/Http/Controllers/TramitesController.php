@@ -12,27 +12,17 @@ class TramitesController extends Controller
 {
     public function traspasoByCedula(string $cedula)
     {
-
         try {
             $tramites = Tramites::tramiteByCedula($cedula);
 
             if (empty($tramites)) {
-                return response()->json([
-                    'estatus' => 404,
-                    'mensaje' => 'No se encontraron trámites pagados registrados para la cédula ingresada. '
-                ], 404);
+                return $this->errorValidations('No se encontraron trámites pagados registrados para la cédula ingresada.', 404);
             }
 
-            return response()->json([
-                'estatus' => 200,
-                'data' => $tramites
-            ], 200);
+            return $this->successResponse($tramites, 200, 'Trámites encontrados.');
 
         } catch (QueryException $e) {
-            return response()->json([
-                'estatus' => 500,
-                'error' => 'Error en la base de datos al realizar la consulta' . $e
-            ], 500);
+            return $this->error('Error en la base de datos al realizar la consulta' . $e, 500);
         }
     }
 }
