@@ -32,7 +32,7 @@ class UsersController extends Controller
 
         try {
             $cedula = str_replace(' ', '', $request->numero_documento);
-            $user = User::where('numero_documento', $cedula)->first();
+            $user = User::getUser($cedula);
 
             // 1er caso: el usuario ya existe
             if ($user) {
@@ -102,7 +102,8 @@ class UsersController extends Controller
 
         try {
             $cedula = str_replace(' ', '', $numDocumento);
-            $personaByCedula = User::where('numero_documento', $cedula)->first();
+            //$personaByCedula = User::where('numero_documento', $cedula)->first();
+            $personaByCedula = User::getUser($cedula);
 
             if (!$personaByCedula) {
                 return response()->json([
@@ -147,8 +148,7 @@ class UsersController extends Controller
 
         try {
             $cedulaLimpia = str_replace(' ', '', (string)$cedula);
-
-            $usuario = User::where('numero_documento', $cedulaLimpia)->first();
+            $usuario = User::getUser($cedulaLimpia);
 
             if (!$usuario) {
                 return response()->json([
@@ -161,7 +161,7 @@ class UsersController extends Controller
 
             if ($correo_viejo !== $correo_nuevo) {
                 $emailTaken = User::where('correo', $correo_nuevo)
-                    ->where('numero_documento', '!=', $usuario->numero_documento)
+                    ->where('numero_documento', '!=', $cedulaLimpia)
                     ->exists();
 
                 if ($emailTaken) {
@@ -171,13 +171,14 @@ class UsersController extends Controller
                     ], 400);
                 }
 
-                $usuario->correo = $correo_nuevo;
-                $usuario->save();
+                User::updateEmail($cedulaLimpia, $correo_nuevo);
+
+                $usuarioActualizado = User::getUser($cedulaLimpia);
 
                 return response()->json([
                     'status' => 200,
                     'message' => 'Se ha actualizado su correo electrónico exitosamente.',
-                    'data' => $usuario
+                    'data' => $usuarioActualizado
                 ], 200);
             }
 
