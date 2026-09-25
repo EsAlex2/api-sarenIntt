@@ -32,7 +32,7 @@ class UsersController extends Controller
 
         try {
             $cedula = str_replace(' ', '', $request->numero_documento);
-            $user = User::where('numero_documento', $cedula)->first();
+            $user = User::getUser($cedula);
 
             // 1er caso: el usuario ya existe
             if ($user) {
