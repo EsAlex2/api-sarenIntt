@@ -29,7 +29,7 @@ class TramitesController extends Controller
         }
     }
 
-    public function createProcedure(Request $request){
+    public function createProcedure(CreateProcedure $request){
 
 
         //Verificar ultimo tramite registrado para el vehiculo (debe ser mayor para 2009 para el el registro de traspaso)
