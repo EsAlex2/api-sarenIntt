@@ -148,8 +148,7 @@ class UsersController extends Controller
 
         try {
             $cedulaLimpia = str_replace(' ', '', (string)$cedula);
-
-            $usuario = User::where('numero_documento', $cedulaLimpia)->first();
+            $usuario = User::getUser($cedulaLimpia);
 
             if (!$usuario) {
                 return response()->json([
@@ -162,7 +161,7 @@ class UsersController extends Controller
 
             if ($correo_viejo !== $correo_nuevo) {
                 $emailTaken = User::where('correo', $correo_nuevo)
-                    ->where('numero_documento', '!=', $usuario->numero_documento)
+                    ->where('numero_documento', '!=', $cedulaLimpia)
                     ->exists();
 
                 if ($emailTaken) {
@@ -172,13 +171,14 @@ class UsersController extends Controller
                     ], 400);
                 }
 
-                $usuario->correo = $correo_nuevo;
-                $usuario->save();
+                User::updateEmail($cedulaLimpia, $correo_nuevo);
+
+                $usuarioActualizado = User::getUser($cedulaLimpia);
 
                 return response()->json([
                     'status' => 200,
                     'message' => 'Se ha actualizado su correo electrónico exitosamente.',
-                    'data' => $usuario
+                    'data' => $usuarioActualizado
                 ], 200);
             }
 

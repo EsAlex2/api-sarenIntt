@@ -43,6 +43,16 @@ class User extends Authenticatable implements JWTSubject
             ->where('p.numero_documento', $cedula)
             ->first();
     }
+
+    public static function updateEmail(string $cedula, string $correo)
+    {
+        return DB::table('administracion.personas')
+            ->where('numero_documento', $cedula)
+            ->update([
+                'correo' => $correo
+            ]);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
