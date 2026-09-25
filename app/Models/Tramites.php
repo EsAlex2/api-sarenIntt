@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -55,6 +56,9 @@ class Tramites extends Authenticatable implements JWTSubject
             })
             ->join('administracion.status_pago as sp', 'sp.spkstatus_pago', '=', 'cav.fpkestatus')
             ->where('p.numero_documento', $cedula);
+            // ->where('cav.fpkoficina', 128);
+            // ->where('cav.fpkperfil', 56)
+            // ->where('ctv.fpktipotra', 23);
             //->where('cav.fpkestatus', $estatus);
 
         $segundaConsulta = DB::table('intranet.citas_asignadas_vh_ver as cavv')
@@ -94,5 +98,42 @@ class Tramites extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public static function createProcedure(array $data)
+    {
+        try {
+            DB::beginTransaction();
+
+            $asignacion = DB::table('intranet.citas_asignadas_vh')->insertGetId([
+                'fecha_cita' => now(),
+                'fpkoficina' => 128,
+                'placa' => $data['placa'],
+                'serial' => $data['serial'],
+                'fecha_registro' => now(),
+                'ip_registro' => $data['ip_registro'],
+                'fpkpersonas' => $data['fpkpersonas'],
+                'fpkperfil' => 56,
+                'ano' => $data['ano'],
+                'fpkestatus' => 2,
+                'numero' =>  Carbon::now()->format('ymd') . substr((string) microtime(true), -4),
+                'fpktipooficina' => 1,
+                'causa' => 1,
+            ], 'spkcitavh');
+
+            $tramite = DB::table('intranet.cita_tra_vh')->insert([
+                'fpkcitavh' => $asignacion,
+                'fpktipotra' => 23,
+                'monto' => $data['monto'],
+                'status' => 1
+            ]);
+
+            DB::commit();
+            return $tramite;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception("Error al crear el trámite: " . $e->getMessage());
+        }
+
     }
 }
