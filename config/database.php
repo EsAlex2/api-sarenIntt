@@ -130,6 +130,20 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'sybase' => [
+            'driver' => 'odbc',
+            'dsn' => 'sybase', // Nombre del DSN en odbc.ini
+            'host' => env('DB_HOST_PORTAL', '192.168.100.69'),
+            'port' => env('DB_PORT_PORTAL', '5000'),
+            'database' => env('DB_DATABASE_PORTAL', 'portal_inttt'),
+            'username' => env('DB_USERNAME_PORTAL', 'catatumbo'),
+            'password' => env('DB_PASSWORD_PORTAL', 'Catatumbo$$2024.'),
+            'prefix' => '',
+            'grammar' => [
+                'query' => Illuminate\Database\Query\Grammars\SqlServerGrammar::class,
+                'schema' => Illuminate\Database\Schema\Grammars\SqlServerGrammar::class,
+            ]
+        ],
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
