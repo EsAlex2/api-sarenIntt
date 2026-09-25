@@ -22,7 +22,7 @@ class User extends Authenticatable implements JWTSubject
         'fpktipodocumento',
         'correo',
         'nombre_empresa',
-        'digito_rif',
+        //'digito_rif',
         'telef_celular'
     ];
 
