@@ -102,7 +102,8 @@ class UsersController extends Controller
 
         try {
             $cedula = str_replace(' ', '', $numDocumento);
-            $personaByCedula = User::where('numero_documento', $cedula)->first();
+            //$personaByCedula = User::where('numero_documento', $cedula)->first();
+            $personaByCedula = User::getUser($cedula);
 
             if (!$personaByCedula) {
                 return response()->json([
