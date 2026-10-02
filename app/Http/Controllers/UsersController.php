@@ -19,7 +19,7 @@ class UsersController extends Controller
             'segundo_nombre' => 'nullable|string|max:20',
             'primer_apellido' => 'required|string|max:20',
             'segundo_apellido' => 'nullable|string|max:20',
-            'fpktipodocumento' => 'required|string|max:1',
+            'fpktipodocumento' => 'required|integer|max:1',
             'correo' => 'required|string|email|max:50',
             'nombre_empresa' => 'nullable|string|max:50',
             'digito_rif' => 'nullable|string|max:15',
