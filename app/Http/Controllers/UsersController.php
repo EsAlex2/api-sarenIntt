@@ -23,7 +23,7 @@ class UsersController extends Controller
             'correo' => 'required|string|email|max:50',
             'nombre_empresa' => 'nullable|string|max:50',
             'digito_rif' => 'nullable|string|max:15',
-            'telef_celular' => 'required|string'
+            'telef_celular' => 'required|string|max:12'
         ]);
 
         if ($validator->fails()) {
@@ -70,7 +70,7 @@ class UsersController extends Controller
                 'segundo_nombre' => strtoupper(trim($request->segundo_nombre)),
                 'primer_apellido' => strtoupper(trim($request->primer_apellido)),
                 'segundo_apellido' => strtoupper(trim($request->segundo_apellido)),
-                'fpktipodocumento' => strtoupper(trim($request->fpktipodocumento)),
+                'fpktipodocumento' => (int) $request->fpktipodocumento,
                 'correo' => strtoupper(trim($request->correo)),
                 'nombre_empresa' => strtoupper(trim($request->nombre_empresa)),
                 'digito_rif' => strtoupper(trim($request->digito_rif)),
@@ -86,7 +86,8 @@ class UsersController extends Controller
         } catch (QueryException $e) {
             return response()->json([
                 'status' => 500,
-                'message' => 'Ocurrió un error al procesar la solicitud.'
+                'message' => 'Ocurrió un error al procesar la solicitud.',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
