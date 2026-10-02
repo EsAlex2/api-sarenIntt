@@ -87,7 +87,7 @@ class UsersController extends Controller
             return response()->json([
                 'status' => 500,
                 'message' => 'Ocurrió un error al procesar la solicitud.',
-                'error' => $e->getMessage()
+                //'error' => $e->getMessage()
             ], 500);
         }
     }
