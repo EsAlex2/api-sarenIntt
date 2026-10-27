@@ -115,6 +115,20 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'telescope_connection' => [
+        'driver' => 'pgsql',
+        'host' => env('DB_TELESCOPE_HOST', '10.20.2.54'),
+        'port' => env('DB_TELESCOPE_PORT', '5432'),
+        'database' => env('DB_TELESCOPE_DATABASE', 'telescope_saren'),
+        'username' => env('DB_TELESCOPE_USERNAME', 'postgres'),
+        'password' => env('DB_TELESCOPE_PASSWORD', 'T3mporal.'),
+        'charset' => 'utf8',
+        'prefix' => '',
+        'prefix_indexes' => true,
+        'search_path' => 'public',
+        'sslmode' => 'prefer',
+    ],
+
         'sgtpu-new' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL_SGTPU_NEW'),
